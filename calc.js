@@ -2,7 +2,7 @@ const currentoperationHTML = document.querySelector('[current-operation]')
 const previousoperationHTML = document.querySelector('[previous-operation]')
 const selectedButton = document.querySelectorAll('[buttons]')
 const operationButton = document.querySelectorAll('[buttonOperation]')
-
+const equalsButton = document.querySelector('[equalsButton]')
 
 class Calculator {
     constructor(previousoperationHTML,currentoperationHTML){
@@ -27,10 +27,41 @@ appendNumber(number) {
 }
 
 operation(operation) {
+    if (this.currentoperand === '') return
+    if (this.previous !== ''){
+        this.compute()
+        console.log ("1o")
+    }
    this.operation = operation
    this.previous = this.currentoperand
-   console.log (this.previous)
    this.currentoperand =''
+}
+
+compute(){
+    let result
+    const previousInt = parseFloat(this.previous)
+    const currentInt = parseFloat(this.currentoperand)
+    switch (this.operation){
+        case '+':
+            result = previousInt + currentInt
+            break
+        case '-':
+            result = previousInt - currentInt
+            break
+        case '*':
+            result = previousInt * currentInt
+            break
+        case '/':
+            result = previousInt / currentInt
+            break
+        default:
+            return
+
+    }
+   
+    this.currentoperand = result
+    this.operation = undefined
+    this.previous = ''
 }
 
 updateDisplay (){
@@ -60,3 +91,10 @@ operationButton.forEach(button => {
         calculator.updateDisplay() 
     })
 })
+
+
+equalsButton.addEventListener("click",button => {
+    calculator.compute()
+    calculator.updateDisplay()
+})
+
