@@ -3,6 +3,9 @@ const previousoperationHTML = document.querySelector('[previous-operation]')
 const selectedButton = document.querySelectorAll('[buttons]')
 const operationButton = document.querySelectorAll('[buttonOperation]')
 const equalsButton = document.querySelector('[equalsButton]')
+const clearButton = document.querySelector('[clearButton]')
+const deleteButton = document.querySelector('[deleteButton]')
+
 
 class Calculator {
     constructor(previousoperationHTML,currentoperationHTML){
@@ -13,9 +16,12 @@ class Calculator {
 
 clear () {
     this.currentoperand = ''
-    this.previous = ''
+    this.previous = '' 
+    this.operation = undefined
     
 }
+
+
 
 
 appendNumber(number) {
@@ -26,15 +32,19 @@ appendNumber(number) {
     }
 }
 
-operation(operation) {
+ChooseOperation(operation) {
     if (this.currentoperand === '') return
     if (this.previous !== ''){
         this.compute()
-        console.log ("1o")
     }
    this.operation = operation
-   this.previous = this.currentoperand
+   this.previous = this.currentoperand + operation
    this.currentoperand =''
+}
+
+delete(){
+    if (this.previous === '')return
+    this.currentoperand = this.currentoperand.slice(0, this.currentoperand.length - 1);
 }
 
 compute(){
@@ -87,7 +97,7 @@ selectedButton.forEach(button => {
 operationButton.forEach(button => {
     button.addEventListener("click", () => {
         
-        calculator.operation(button.innerText)
+        calculator.ChooseOperation(button.innerText)
         calculator.updateDisplay() 
     })
 })
@@ -98,3 +108,12 @@ equalsButton.addEventListener("click",button => {
     calculator.updateDisplay()
 })
 
+clearButton.addEventListener("click", button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+deleteButton.addEventListener("click", button => {
+    calculator.delete()
+    calculator.updateDisplay()
+})
