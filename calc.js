@@ -18,24 +18,26 @@ clear () {
     this.currentoperand = ''
     this.previous = '' 
     this.operation = undefined
-    
 }
 
 
 
 
 appendNumber(number) {
+  
     if (number === '.' && this.currentoperand.includes('.')){return}
+    
     else
-    {
-        this.currentoperand =  this.currentoperand + number
+    {   
+        
+        this.currentoperand =  this.currentoperand + number       
     }
 }
 
-ChooseOperation(operation) {
+Operate(operation) {
     if (this.currentoperand === '') return
     if (this.previous !== ''){
-        this.compute()
+        this.compute()    
     }
    this.operation = operation
    this.previous = this.currentoperand + operation
@@ -43,7 +45,6 @@ ChooseOperation(operation) {
 }
 
 delete(){
-    if (this.previous === '')return
     this.currentoperand = this.currentoperand.slice(0, this.currentoperand.length - 1);
 }
 
@@ -68,20 +69,18 @@ compute(){
             return
 
     }
-   
     this.currentoperand = result
     this.operation = undefined
     this.previous = ''
 }
+
+
 
 updateDisplay (){
     this.currentoperationHTML.innerText =  this.currentoperand 
     this.previousoperationHTML.innerText = this.previous
 }
 }
-
-
-
 
 
 const calculator = new Calculator(previousoperationHTML,currentoperationHTML)
@@ -97,7 +96,7 @@ selectedButton.forEach(button => {
 operationButton.forEach(button => {
     button.addEventListener("click", () => {
         
-        calculator.ChooseOperation(button.innerText)
+        calculator.Operate(button.innerText)
         calculator.updateDisplay() 
     })
 })
